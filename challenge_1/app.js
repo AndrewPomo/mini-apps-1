@@ -1,98 +1,89 @@
 document.addEventListener("DOMContentLoaded", function() {
-  // initial state
-  var currentTurn = 0;
-  var winCallCount = 0;
 
-  var squares = document.getElementsByClassName('square');
+  var gBI = function(id) {
+    return document.getElementById(id);
+  }
 
-  var row1 = document.getElementsByClassName('row1');
-  var row2 = document.getElementsByClassName('row2');
-  var row3 = document.getElementsByClassName('row3');
-  var col1 = document.getElementsByClassName('col1');
-  var col2 = document.getElementsByClassName('col2');
-  var col3 = document.getElementsByClassName('col3');
+  var gBC = function(className) {
+    return document.getElementsByClassName(className);
+  }
 
-  var major = [
-    document.getElementById('r1c1'),
-    document.getElementById('r2c2'),
-    document.getElementById('r3c3')
-  ];
+  var s =  {
+    symbol: 'X',
+    checks: 0,
+    xWins: 0,
+    oWins: 0,
+    winner:''
+  }
 
-  var minor = [
-    document.getElementById('r1c3'),
-    document.getElementById('r2c2'),
-    document.getElementById('r3c1')
-  ];
-  
-  var lines = [
-    row1,
-    row2,
-    row3,
-    col1,
-    col2,
-    col3,
-    major,
-    minor
-  ];
+  var squares = gBC('square');
+  var M = [gBI('0'), gBI('4'), gBI('8')];
+  var m = [gBI('6'), gBI('4'), gBI('2')];
+  var lines = [gBC('r1'), gBC('r2'), gBC('r3'), gBC('c1'), gBC('c2'), gBC('c3'), M, m];
+  var wIndicator = gBI('wIndicator');
 
-  var windicator = document.getElementById('windicator');
-  
-  // Respond to user input
-  document.onkeyup = function (event) {
-    if (event.which == 82 || event.keyCode == 82) {
-      currentTurn = 0;
-      winCallCount = 0;
-      windicator.innerHTML = '';
-      for (var i = 0; i < squares.length; i++) {
-        squares[i].innerHTML = '';
-      }
+  var handleWin = function(winner) {
+    s.winner = winner;
+    wIndicator.innerHTML = winner + ' wins! push the "r" key to reset the board';
+    if (winner === 'X') {
+      s.xWins++
+      s.symbol = 'X';
+      gBI('xWins').innerHTML = s.xWins;
+    } else {
+      s.oWins++
+      s.symbol = 'O'
+      gBI('oWins').innerHTML = s.oWins;
     }
-  };
+    document.removeEventListener('click', clickHandler);
+  }
 
   var checkForOutcome = function(line) {
     var win = true;
     var first = line[0].innerHTML;
-
+    console.log(line, s.checks);
+    s.checks++;
     if (first === '') {
       win = false;
     }
-
     for (var i = 0; i < line.length; i++) {
       if (line[i].innerHTML !== first) {
         win = false;
       }
     }
-
     if (win) {
-      windicator.innerHTML = first + ' wins'  ;
-    } else if (winCallCount === 9) {
-      windicator.innerHTML = 'draw! hit the "r" key to restart';
+      handleWin(first);
+    } else if (s.checks === 72 && s.winner === '') {
+      wIndicator.innerHTML = 'draw! push the "r" key to reset the board';
     }
-    
   }
 
-  var clickHandler = function () {
-    console.log(winCallCount + ' calls');
-    console.log(currentTurn + ' turns');
-    if (this.innerHTML === '') {
-      if (currentTurn % 2 === 0) {
-        this.innerHTML = 'X';
+  var clickHandler = function (e) {
+    if (e.target.innerHTML === '') {
+      if (s.symbol === 'X') {
+        e.target.innerHTML = 'X';
+        s.symbol = 'O'
       } else {
-        this.innerHTML = 'O';
+        e.target.innerHTML = 'O';
+        s.symbol = 'X'
       }
-      winCallCount++;
-
       lines.forEach(function(line) {
         checkForOutcome(line);
       })
-
-      currentTurn++;
     }
   }
 
-  // Listen for userInput
-  for (var i = 0; i < squares.length; i++) {
-    squares[i].addEventListener('click', clickHandler);
-  }
+  document.onkeyup = function (event) {
+    if (event.keyCode == 82) {
+      gBI('firstSymbol').innerHTML = s.symbol;
+      s.checks = 0;
+      s.winner = '';
+      wIndicator.innerHTML = '';
+      for (var i = 0; i < squares.length; i++) {
+        squares[i].innerHTML = '';
+      }
+      document.addEventListener('click', clickHandler, false);
+    }
+  };
 
+  document.addEventListener('click', clickHandler, false);
 });

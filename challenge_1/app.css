@@ -1,0 +1,63 @@
+body {
+  background-color: #3b653d;
+  color: #f4f4f0;
+  font-family: 'Gloria Hallelujah', cursive;
+}
+
+button {
+  margin-bottom: 20px;
+  margin-top: -20px;
+  font-family: 'Gloria Hallelujah', cursive;
+  height: 100px;
+  width: 100px;
+  font-size: 70px;
+  color: #f4f4f0;
+  background-color: Transparent;
+  background-repeat:no-repeat;
+  border: none;
+  cursor:pointer;
+  overflow: hidden;
+  outline:none;
+}
+
+table {
+  border-collapse: collapse;
+  margin: auto;
+  margin-top: 50px;
+}
+
+p {
+  margin:0px;
+}
+#gameInfo {
+  margin:auto;
+  margin-top:60px;
+  text-align:center;
+  font-size: 30px;
+}
+
+#top, #bottom, #left, #right, #center {
+  width: 33.333%;
+  border: 10px solid #f4f4f0;
+}
+
+#left, #right {
+  border-left-width: 0px;
+  border-right-width: 0px;
+}
+
+#top, #bottom {
+  border-top-width: 0px;
+  border-bottom-width: 0px;
+}
+
+
+#wIndicator {
+  font-size: 50px;
+  margin: auto;
+  margin-top:20px;
+  text-align: center;
+}
+
+
+

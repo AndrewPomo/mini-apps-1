@@ -2,48 +2,54 @@
 <html>
 <head>
   <title>Tic Tac Toe</title>
+  <link rel="stylesheet" href="app.css"></link>
+  <link href="https://fonts.googleapis.com/css?family=Gloria+Hallelujah" rel="stylesheet">
   <script type="text/javascript" src="./app.js"></script>
 </head>
 <body>
-  <p>Push the "r" key to reset the board</p>
-  <p id="windicator"></p>
-  <table>
+  <div id='gameInfo'>
+    <p>X Wins: <span id=xWins></span></p>
+    <p>O Wins: <span id=oWins></span></p>
+    <p><span id='firstSymbol'>X</span> goes first this round</p>
+  </div>
+  <table id="board">
     <tbody>
-      <tr class='row'>
+      <tr class='row' id='row1'>
         <td>
-          <button class='square row1 col1' id=r1c1></button>
+          <button class='square r1 c1' id=0></button>
+        </td>
+        <td id='top'>
+          <button class='square r1 c2' id=1></button>
         </td>
         <td>
-          <button class='square row1 col2' id=r1c2></button>
-        </td>
-        <td>
-          <button class='square row1 col3' id=r1c3></button>
-        </td>
-      </tr>
-      <tr class='row'>
-        <td>
-          <button class='square row2 col1' id=r2c1></button>
-        </td>
-        <td>
-          <button class='square row2 col2' id=r2c2></button>
-        </td>
-        <td>
-          <button class='square row2 col3' id=r2c3></button>
+          <button class='square r1 c3' id=2></button>
         </td>
       </tr>
-      <tr class='row'>
+      <tr class='row' id='row2'>
+        <td id='left'>
+          <button class='square r2 c1' id=3></button>
+        </td>
+        <td id='center'>
+          <button class='square r2 c2' id=4></button>
+        </td>
+        <td id='right'>
+          <button class='square r2 c3' id=5></button>
+        </td>
+      </tr>
+      <tr class='row' id='row3'>
         <td>
-          <button class='square row3 col1' id=r3c1></button>
+          <button class='square r3 c1' id=6></button>
+        </td>
+        <td id='bottom'>
+          <button class='square r3 c2' id=7></button>
         </td>
         <td>
-          <button class='square row3 col2' id=r3c2></button>
-        </td>
-        <td>
-          <button class='square row3 col3' id=r3c3></button>
+          <button class='square r3 c3' id=8></button>
         </td>
       </tr>
     </tbody>
   </table>
+  <p id="wIndicator"></p>
 </body>
 </html>
 
