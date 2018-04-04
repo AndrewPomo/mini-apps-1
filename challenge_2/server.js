@@ -1,48 +1,71 @@
 var express = require('express')
 var path = require('path');
 var bodyParser = require('body-parser');
+var db = require('./connection');
 var app = express();
 
-var handleJSON = function(JSON, callback) {
-  var keys = Object.keys(JSON);
-  // keys = the first line of the csv
+class Server {
+  init() {
+    var context = this;
+    app.use(express.static(__dirname + '/client'));
+    app.use(bodyParser.urlencoded({ extended: false }));
+    app.use(bodyParser.json());
 
-  function getVals() {
+    app.get('/', (req, res) => {
+      res.sendFile(path.join(__dirname, './client', 'index.html'))
+    });
 
-    for (var keys in JSON) {
+    app.post('/', function (req, res) {
+      context.getValues(req.body, function(csv) {
+        res.send(csv)
+      })
+    })
 
-    }
+    app.listen(3000, () => console.log('Listening on port 3000!'))
   }
-
-  getVals(JSON)
-  
-  callback(JSON)
 }
 
-app.use(express.static(__dirname + '/client'));
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+class CsvMachine extends Server{
+  getValues(JSON, callback) {
+    var firstKeys = Object.keys(JSON);
+    firstKeys.splice(firstKeys.indexOf('children'), 1, 'parent')
+    var csv = 'id, ' + firstKeys.join(', ') + '<br>';
+    var auto = 1
 
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, './client', 'index.html'))
-});
+    var getVals = (json, parent) => {
+      var nextLine = auto.toString() + ', ';
+      for (var key in json) {
+        for (var i = 0; i < firstKeys.length; i++) {
+          if (key === firstKeys[i]) {
+            nextLine += json[key] + ', ';
+          }
+        }
+      }
 
-app.post('/', function (req, res) {
-  handleJSON(req.body, function(csv) {
-    res.send(csv)
-  })
-})
+      nextLine += parent
+      parent === null ? parent = 1 : parent++;
+      nextLine += '<br>';
+      csv += nextLine;
+      auto++;
 
-app.listen(3000, () => console.log('Listening on port 3000!'))
+      if (json.children) {
+        for (var i = 0; i < json.children.length; i++) {
+          getVals(json.children[i], parent);
+        }
+      }
+    }
 
+    getVals(JSON, null)
+    csv = csv.slice(0, -4)
+    callback(csv)
+  }
 
-// You may assume the JSON data has a regular structure and hierarchy (see included sample file). 
+  formatValuesToCSV(values, callback) {
+    var csv = values.keys.join(',')
+    delete values.keys
+  }
+}
 
-// The server must flatten the JSON hierarchy, mapping each item in the JSON to a single line of CSV report (see included sample output). 
+var csvMachine = new CsvMachine();
+csvMachine.init()
 
-// You may assume child records in the JSON will always be in a property called children but you may not assume a JSON record has any other specific properties; 
-// i.e. any properties that exist besides children must be mapped to a column in your CSV report.
-
-// var CSVify = function (stringiFied) {
-
-// }
