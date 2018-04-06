@@ -1,0 +1,12 @@
+"use strict";
+
+function Keyrow(props) {
+  return React.createElement(
+    "tr",
+    null,
+    props.buttons.map(function (number) {
+      return React.createElement(KeyButton, { id: number, key: number, click: props.click });
+    })
+  );
+}
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uL2NsaWVudC9rZXlyb3cuanN4Il0sIm5hbWVzIjpbIktleXJvdyIsInByb3BzIiwiYnV0dG9ucyIsIm1hcCIsIm51bWJlciIsImNsaWNrIl0sIm1hcHBpbmdzIjoiOztBQUFBLFNBQVNBLE1BQVQsQ0FBZ0JDLEtBQWhCLEVBQXVCO0FBQ3JCLFNBQ0U7QUFBQTtBQUFBO0FBQ0dBLFVBQU1DLE9BQU4sQ0FBY0MsR0FBZCxDQUFrQjtBQUFBLGFBQ2pCLG9CQUFDLFNBQUQsSUFBVyxJQUFJQyxNQUFmLEVBQXVCLEtBQUtBLE1BQTVCLEVBQW9DLE9BQU9ILE1BQU1JLEtBQWpELEdBRGlCO0FBQUEsS0FBbEI7QUFESCxHQURGO0FBT0QiLCJmaWxlIjoia2V5cm93LmpzIiwic291cmNlc0NvbnRlbnQiOlsiZnVuY3Rpb24gS2V5cm93KHByb3BzKSB7XG4gIHJldHVybiAoXG4gICAgPHRyPlxuICAgICAge3Byb3BzLmJ1dHRvbnMubWFwKG51bWJlciA9PlxuICAgICAgICA8S2V5QnV0dG9uIGlkPXtudW1iZXJ9IGtleT17bnVtYmVyfSBjbGljaz17cHJvcHMuY2xpY2t9Lz5cbiAgICAgICl9XG4gICAgPC90cj5cbiAgKVxufSJdfQ==

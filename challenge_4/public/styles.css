@@ -1,0 +1,16 @@
+.frame{
+  text-align:center;
+  padding:5px;
+  float: left;
+}
+
+
+
+.keyButton {
+ width: 25px;
+ height: 25px;
+}
+
+.x {
+  display:none;
+}
